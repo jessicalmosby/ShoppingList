@@ -9,8 +9,6 @@ const deletebtn = document.querySelector('#delete-btn');
 const listEl = document.querySelector('.list');
 const error = document.querySelector('#error');
 
-checkAuth();
-
 /* Events */
 window.addEventListener('load', async () => {
     await fetchAndDisplayList();
@@ -35,3 +33,24 @@ form.addEventListener('submit', async (e) => {
     await fetchAndDisplayList();
 });
 /* Display Functions */
+async function fetchAndDisplayList() {
+    const list = await getListItems();
+    listEl.textContent = '';
+    for (let item of list) {
+        const listItemEl = document.createElement('p');
+        listItemEl.classList('list-item');
+        listItemEl.textContent = `${item.quantity} ${item.item}`;
+
+        if (item.bought) {
+            listItemEl.classList.add('bought');
+        } else {
+            listItemEl.classList.add('not-bought');
+            listItemEl.addEventListener('click', async () => {
+                await buyListItem(item.id);
+
+                fetchAndDisplayList();
+            });
+        }
+        listEl.append(listItemEl);
+    }
+}

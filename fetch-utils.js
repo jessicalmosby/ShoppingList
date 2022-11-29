@@ -43,6 +43,15 @@ export async function createListItem(quantity, item) {
     return response.data;
 }
 
+export async function getListItems() {
+    const response = await client.from('shopping_list').select().match({ user_id: getUser().id });
+    if (response.error) {
+        console.error(response.error.message);
+    } else {
+        return response.data;
+    }
+}
+
 export async function deleteAllItems() {
     const response = await client.from('shopping_list').delete().match({ user_id: getUser().id });
     return checkError(response);
