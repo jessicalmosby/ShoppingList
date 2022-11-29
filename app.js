@@ -1,16 +1,21 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { createListItem, getListItems } from './fetch-utils.js';
+import { createListItem, getListItems, buyItem, deleteAllItems } from './fetch-utils.js';
 
 /* Get DOM Elements */
 const form = document.querySelector('.create-form');
-const deletebtn = document.querySelector('#delete-btn');
+const deleteBtn = document.querySelector('#delete-btn');
 const listEl = document.querySelector('.list');
 const error = document.querySelector('#error');
 
 /* Events */
 window.addEventListener('load', async () => {
+    await fetchAndDisplayList();
+});
+
+deleteBtn.addEventListener('click', async () => {
+    await deleteAllItems();
     await fetchAndDisplayList();
 });
 
@@ -41,15 +46,16 @@ async function fetchAndDisplayList() {
         listItemEl.classList.add('list-item');
         listItemEl.textContent = `${item.quantity} ${item.item}`;
 
-        // if (item.bought) {
-        //     listItemEl.classList.add('bought');
-        // } else {
-        //     listItemEl.classList.add('not-bought');
-        //     listItemEl.addEventListener('click', async () => {
-        //         await buyItem(item.id);
+        if (item.bought) {
+            listItemEl.classList.add('bought');
+        } else {
+            listItemEl.classList.add('not-bought');
+            listItemEl.addEventListener('click', async () => {
+                await buyItem(item.id);
 
-        //         fetchAndDisplayList();
-        //     });
-        listEl.append(listItemEl);
+                fetchAndDisplayList();
+            });
+            listEl.append(listItemEl);
+        }
     }
 }
