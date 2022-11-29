@@ -1,7 +1,7 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { createListItem } from './fetch-utils.js';
+import { createListItem, getListItems } from './fetch-utils.js';
 
 /* Get DOM Elements */
 const form = document.querySelector('.create-form');
@@ -30,7 +30,7 @@ form.addEventListener('submit', async (e) => {
         error.textContent = 'Something went wrong while adding to your shopping list';
     }
 
-    await fetchAndDisplayList();
+    fetchAndDisplayList();
 });
 /* Display Functions */
 async function fetchAndDisplayList() {
@@ -38,19 +38,18 @@ async function fetchAndDisplayList() {
     listEl.textContent = '';
     for (let item of list) {
         const listItemEl = document.createElement('p');
-        listItemEl.classList('list-item');
+        listItemEl.classList.add('list-item');
         listItemEl.textContent = `${item.quantity} ${item.item}`;
 
-        if (item.bought) {
-            listItemEl.classList.add('bought');
-        } else {
-            listItemEl.classList.add('not-bought');
-            listItemEl.addEventListener('click', async () => {
-                await buyListItem(item.id);
+        // if (item.bought) {
+        //     listItemEl.classList.add('bought');
+        // } else {
+        //     listItemEl.classList.add('not-bought');
+        //     listItemEl.addEventListener('click', async () => {
+        //         await buyItem(item.id);
 
-                fetchAndDisplayList();
-            });
-        }
+        //         fetchAndDisplayList();
+        //     });
         listEl.append(listItemEl);
     }
 }

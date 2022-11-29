@@ -39,7 +39,9 @@ export async function fetchItems() {
 }
 
 export async function createListItem(quantity, item) {
-    const response = await client.from('shopping_list').insert([{ quantity, item }]);
+    const response = await client
+        .from('shopping_list')
+        .insert({ quantity, item, user_id: client.auth.user().id });
     return response.data;
 }
 
