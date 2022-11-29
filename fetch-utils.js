@@ -47,3 +47,5 @@ export async function deleteAllItems() {
     const response = await client.from('shopping_list').delete().match({ user_id: getUser().id });
     return checkError(response);
 }
+
+export async function buyItem(id) {}
