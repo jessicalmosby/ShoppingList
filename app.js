@@ -14,11 +14,6 @@ window.addEventListener('load', async () => {
     await fetchAndDisplayList();
 });
 
-deleteBtn.addEventListener('click', async () => {
-    await deleteAllItems();
-    await fetchAndDisplayList();
-});
-
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -37,6 +32,12 @@ form.addEventListener('submit', async (e) => {
 
     fetchAndDisplayList();
 });
+
+deleteBtn.addEventListener('click', async () => {
+    await deleteAllItems();
+    await fetchAndDisplayList();
+});
+
 /* Display Functions */
 async function fetchAndDisplayList() {
     const list = await getListItems();
@@ -46,7 +47,7 @@ async function fetchAndDisplayList() {
         listItemEl.classList.add('list-item');
         listItemEl.textContent = `${item.quantity} ${item.item}`;
 
-        if (item.bought) {
+        if (item.complete) {
             listItemEl.classList.add('bought');
         } else {
             listItemEl.classList.add('not-bought');
